@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Banknote, Check, Clock, CreditCard, Printer, Smartphone, UtensilsCrossed } from 'lucide-react'
 import { MESAS, SALONES } from '@/data/salones'
-import { useDemo } from '@/store/demo-store'
+import { useDemo, type EstadoPreparacion } from '@/store/demo-store'
 import type { Comanda, MetodoPago } from '@/types'
 import {
   desglosarIva,
@@ -18,8 +18,6 @@ interface Props {
   onSeleccionar: (id: string | undefined) => void
   notificar: (mensaje: string) => void
 }
-
-type EstadoPreparacion = 'pendiente' | 'preparando' | 'lista'
 
 const ESTILO_ESTADO: Record<EstadoPreparacion, string> = {
   pendiente: 'bg-yellow-100 text-yellow-800',
@@ -56,11 +54,10 @@ const ubicacion = (comanda: Comanda) => {
 }
 
 export default function CajaView({ comandaSeleccionada, onSeleccionar, notificar }: Props) {
-  const { comandasAbiertas, cobrarComanda } = useDemo()
+  const { comandasAbiertas, cobrarComanda, estadosPreparacion, avanzarEstado } = useDemo()
   const [metodo, setMetodo] = useState<MetodoPago>('efectivo')
   const [recibido, setRecibido] = useState('')
   const [propina, setPropina] = useState(0)
-  const [estados, setEstados] = useState<Record<string, EstadoPreparacion>>({})
 
   const seleccionada =
     comandasAbiertas.find((comanda) => comanda.id === comandaSeleccionada) ?? undefined
@@ -82,13 +79,14 @@ export default function CajaView({ comandaSeleccionada, onSeleccionar, notificar
   const cambio = Math.max(0, recibidoNumero - totalConPropina)
   const pagoValido = metodo !== 'efectivo' || recibidoNumero >= totalConPropina
 
-  const estadoDe = (comanda: Comanda): EstadoPreparacion => estados[comanda.id] ?? 'pendiente'
+  const estadoDe = (comanda: Comanda): EstadoPreparacion =>
+    estadosPreparacion[comanda.id] ?? 'pendiente'
 
-  const avanzarEstado = (comanda: Comanda) => {
-    const actual = estadoDe(comanda)
-    const siguiente: EstadoPreparacion = actual === 'pendiente' ? 'preparando' : 'lista'
-    setEstados((previos) => ({ ...previos, [comanda.id]: siguiente }))
-  }
+  useEffect(() => {
+    setPropina(0)
+    setRecibido('')
+    setMetodo('efectivo')
+  }, [seleccionada?.id])
 
   const cobrar = () => {
     if (!seleccionada || !pagoValido) return
@@ -167,7 +165,7 @@ export default function CajaView({ comandaSeleccionada, onSeleccionar, notificar
                             <button
                               onClick={(evento) => {
                                 evento.stopPropagation()
-                                avanzarEstado(comanda)
+                                avanzarEstado(comanda.id)
                               }}
                               className={`text-[12px] px-1.5 py-0.5 border rounded flex-1 ${
                                 estado === 'pendiente'

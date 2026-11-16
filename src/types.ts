@@ -72,6 +72,7 @@ export interface Comanda {
   estado: EstadoComanda
   mesero: string
   mesaId?: string
+  mesaIds?: string[]
   cliente?: string
   telefono?: string
   direccion?: string

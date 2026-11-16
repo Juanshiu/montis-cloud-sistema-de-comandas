@@ -124,7 +124,12 @@ export default function ComandasView({ onVerComanda, notificar }: Props) {
 
   const puedeAvanzar = () => {
     if (paso === 0) {
-      if (tipoPedido === 'domicilio') return true
+      if (tipoPedido === 'domicilio') {
+        return (
+          cliente.nombre.trim().length > 2 &&
+          (cliente.esParaLlevar || cliente.direccion.trim().length > 4)
+        )
+      }
       return mesasSeleccionadas.length > 0
     }
     if (paso === 1) return Boolean(tipoServicio)
@@ -265,8 +270,9 @@ export default function ComandasView({ onVerComanda, notificar }: Props) {
 
     const comanda = crearComanda({
       tipo: tipoPedido === 'domicilio' ? (cliente.esParaLlevar ? 'llevar' : 'domicilio') : 'mesa',
-      mesero: MESEROS[0].nombre,
+      mesero: 'Diana Milena Segura Lavao',
       mesaId: mesasSeleccionadas[0]?.id,
+      mesaIds: mesasSeleccionadas.map((mesa) => mesa.id),
       cliente: cliente.nombre.trim() || undefined,
       telefono: cliente.telefono.trim() || undefined,
       direccion: cliente.direccion.trim() || undefined,

@@ -4,6 +4,7 @@ import {
   ChevronDown,
   ChevronUp,
   Clock,
+  Printer,
   Receipt,
   User,
   UtensilsCrossed,
@@ -169,12 +170,12 @@ export default function HistorialView() {
                   >
                     {comanda.estado === 'pagada' ? 'Pagada' : 'Cancelada'}
                   </span>
-                  <span className="flex items-center gap-1 text-sm text-blue-600">
-                    <User size={14} />
+                  <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
+                    <User size={13} />
                     {comanda.mesero}
                   </span>
-                  <span className="flex items-center gap-1 text-sm text-primary-600">
-                    <UtensilsCrossed size={14} />
+                  <span className="inline-flex items-center gap-1 rounded-full bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary-700">
+                    <UtensilsCrossed size={13} />
                     {ubicacion(comanda)}
                   </span>
                   <span className="flex items-center gap-1 text-sm text-secondary-500">
@@ -182,17 +183,17 @@ export default function HistorialView() {
                     {formatearFechaCorta(comanda.creadaEn)}, {formatearHora(comanda.creadaEn)}
                   </span>
                   <div className="ml-auto text-right">
-                    <div className="font-bold text-secondary-900">
-                      {formatearMoneda(totalComanda(comanda))}
+                    <div className="text-base font-bold text-secondary-900">
+                      {formatearMoneda(totalComanda(comanda) + (comanda.pago?.propina ?? 0))}
                     </div>
-                    <div className="text-xs text-secondary-500">{totalItems(comanda)} ítems</div>
+                    <div className="text-xs text-secondary-500">{totalItems(comanda)} {totalItems(comanda) === 1 ? 'ítem' : 'ítems'}</div>
                   </div>
                   <button
                     className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded flex items-center gap-1"
                     onClick={(evento) => evento.stopPropagation()}
                     title="Ver recibo"
                   >
-                    <Receipt size={14} />
+                    <Printer size={14} />
                     Recibo
                   </button>
                   <span className="text-secondary-400">

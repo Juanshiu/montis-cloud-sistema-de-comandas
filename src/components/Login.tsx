@@ -6,9 +6,9 @@ interface Props {
 }
 
 export default function Login({ onEntrar }: Props) {
-  const [empresaEmail, setEmpresaEmail] = useState('dianamile@montiscloud.com')
-  const [usuarioEmail, setUsuarioEmail] = useState('dianamile@montiscloud.com')
-  const [password, setPassword] = useState('montis2026')
+  const [empresaEmail, setEmpresaEmail] = useState('demo@montiscloud.com')
+  const [usuarioEmail, setUsuarioEmail] = useState('demo@montiscloud.com')
+  const [password, setPassword] = useState("demo1234")
   const [procesando, setProcesando] = useState(false)
 
   const ingresar = (evento: React.FormEvent) => {

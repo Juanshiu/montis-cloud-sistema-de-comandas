@@ -19,7 +19,7 @@ caja, historial, reportes y administración.
 | **Caja** | Comandas abiertas agrupadas por salón, estados de preparación y cobro con efectivo, tarjeta o transferencia (con propina y cálculo de cambio). |
 | **Historial** | Filtros por fecha, tipo de pedido y estado; detalle desplegable de cada comanda. |
 | **Reportes** | Ventas del día, ticket promedio, métodos de pago, productos más vendidos, ventas por hora y por categoría. |
-| **Administración** | Mapa de módulos del sistema (productos, mesas, personal, facturación, configuración) como referencia visual. |
+| **Administración** | Mapa de módulos del sistema (menú, espacios, personal, operaciones, finanzas y configuración) como referencia visual. |
 
 ## Capturas
 
@@ -47,6 +47,9 @@ npm run dev
 ```
 
 La aplicación queda en `http://localhost:4173`.
+
+El login viene precargado con datos de demostración: pulsa **Iniciar Sesión** para entrar
+(cualquier correo y contraseña funcionan).
 
 Para generar la versión de producción:
 
@@ -85,6 +88,8 @@ src/
 - Al confirmar una comanda, esta aparece en **Caja** y ocupa su mesa en el paso 1.
 - Al cobrarla, pasa al **Historial** y se refleja en los **Reportes**.
 - Al recargar la página, el estado vuelve a su punto de partida.
+- Los datos (nombres, teléfonos y direcciones) son ficticios y solo sirven para ilustrar
+  la interfaz.
 
 ## Notas
 

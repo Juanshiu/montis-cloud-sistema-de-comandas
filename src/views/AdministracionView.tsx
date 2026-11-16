@@ -2,11 +2,12 @@ import {
   BadgeDollarSign,
   Boxes,
   Building2,
-  ChefHat,
   ClipboardList,
   CreditCard,
   DoorOpen,
+  FileSignature,
   FileText,
+  Layers,
   LayoutGrid,
   Package,
   Settings,
@@ -39,9 +40,9 @@ interface Grupo {
 
 const GRUPOS: Grupo[] = [
   {
-    nombre: 'Menú y Productos',
+    nombre: 'Gestión de Menú',
     descripcion: 'Carta, precios y personalizaciones',
-    icono: ChefHat,
+    icono: Layers,
     clases: {
       borde: 'border-blue-200',
       cabecera: 'bg-blue-50',
@@ -51,13 +52,13 @@ const GRUPOS: Grupo[] = [
     secciones: [
       { nombre: 'Productos', descripcion: 'Carta, precios e impuestos', icono: Package },
       { nombre: 'Categorías', descripcion: 'Organización de la carta', icono: Tags },
-      { nombre: 'Personalizaciones', descripcion: 'Adiciones y términos', icono: Sliders },
+      { nombre: 'Personalizaciones', descripcion: 'Adiciones, términos y retiros', icono: Sliders },
       { nombre: 'Inventario', descripcion: 'Insumos y stock mínimo', icono: Boxes },
     ],
   },
   {
-    nombre: 'Operación',
-    descripcion: 'Salón, mesas y servicio',
+    nombre: 'Gestión de Espacios',
+    descripcion: 'Salones, mesas y servicio',
     icono: LayoutGrid,
     clases: {
       borde: 'border-green-200',
@@ -66,14 +67,13 @@ const GRUPOS: Grupo[] = [
       texto: 'text-green-700',
     },
     secciones: [
-      { nombre: 'Mesas', descripcion: 'Número, capacidad y estado', icono: LayoutGrid },
       { nombre: 'Salones', descripcion: 'Zonas del restaurante', icono: DoorOpen },
+      { nombre: 'Mesas', descripcion: 'Número, capacidad y estado', icono: LayoutGrid },
       { nombre: 'Comandas', descripcion: 'Historial y anulaciones', icono: ClipboardList },
-      { nombre: 'Caja', descripcion: 'Apertura y cierre de turno', icono: Wallet },
     ],
   },
   {
-    nombre: 'Personal',
+    nombre: 'Recursos Humanos',
     descripcion: 'Usuarios, roles y empleados',
     icono: Users,
     clases: {
@@ -86,12 +86,12 @@ const GRUPOS: Grupo[] = [
       { nombre: 'Usuarios', descripcion: 'Accesos y contraseñas', icono: Users },
       { nombre: 'Empleados', descripcion: 'Datos laborales y turnos', icono: UserCog },
       { nombre: 'Roles y permisos', descripcion: 'Qué puede hacer cada rol', icono: Shield },
-      { nombre: 'Nómina', descripcion: 'Liquidación del personal', icono: BadgeDollarSign },
+      { nombre: 'Liquidaciones', descripcion: 'Nómina y prestaciones', icono: BadgeDollarSign },
     ],
   },
   {
-    nombre: 'Facturación',
-    descripcion: 'DIAN, pagos y documentos',
+    nombre: 'Operaciones',
+    descripcion: 'Facturación y documentos',
     icono: FileText,
     clases: {
       borde: 'border-orange-200',
@@ -100,13 +100,29 @@ const GRUPOS: Grupo[] = [
       texto: 'text-orange-700',
     },
     secciones: [
-      { nombre: 'Configuración DIAN', descripcion: 'Resolución y numeración', icono: FileText },
-      { nombre: 'Métodos de pago', descripcion: 'Efectivo, tarjeta y transferencia', icono: CreditCard },
+      { nombre: 'Facturación', descripcion: 'Resolución DIAN y numeración', icono: CreditCard },
       { nombre: 'Contratos', descripcion: 'Documentos del personal', icono: FileText },
+      { nombre: 'Generar Contrato', descripcion: 'Plantillas y firmas', icono: FileSignature },
     ],
   },
   {
-    nombre: 'Sistema',
+    nombre: 'Finanzas',
+    descripcion: 'Nómina, liquidaciones y caja',
+    icono: Wallet,
+    clases: {
+      borde: 'border-teal-200',
+      cabecera: 'bg-teal-50',
+      icono: 'bg-teal-500',
+      texto: 'text-teal-700',
+    },
+    secciones: [
+      { nombre: 'Nómina', descripcion: 'Pagos del periodo', icono: BadgeDollarSign },
+      { nombre: 'Liquidaciones', descripcion: 'Prestaciones y retiros', icono: FileText },
+      { nombre: 'Arqueo de Caja', descripcion: 'Apertura y cierre de turno', icono: Wallet },
+    ],
+  },
+  {
+    nombre: 'Configuración',
     descripcion: 'Empresa y parámetros generales',
     icono: Settings,
     clases: {
@@ -117,14 +133,15 @@ const GRUPOS: Grupo[] = [
     },
     secciones: [
       { nombre: 'Empresa', descripcion: 'Datos y sucursales', icono: Building2 },
-      { nombre: 'Configuración', descripcion: 'Impresoras y preferencias', icono: Settings },
+      { nombre: 'Configuración del Sistema', descripcion: 'Parámetros generales', icono: Settings },
+      { nombre: 'Impresoras', descripcion: 'Tickets y comandas', icono: LayoutGrid },
     ],
   },
 ]
 
 export default function AdministracionView() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-100">
+    <div className="bg-gradient-to-br from-secondary-50 via-white to-secondary-100">
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -138,7 +155,7 @@ export default function AdministracionView() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 py-8">
+      <div className="max-w-5xl mx-auto sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {GRUPOS.map((grupo) => {
             const IconoGrupo = grupo.icono
@@ -147,9 +164,7 @@ export default function AdministracionView() {
                 key={grupo.nombre}
                 className={`bg-white rounded-xl shadow-sm border-2 ${grupo.clases.borde} overflow-hidden`}
               >
-                <div
-                  className={`${grupo.clases.cabecera} p-6 border-b-2 ${grupo.clases.borde}`}
-                >
+                <div className={`${grupo.clases.cabecera} p-6 border-b-2 ${grupo.clases.borde}`}>
                   <div className="flex items-start space-x-4">
                     <div className={`${grupo.clases.icono} p-3 rounded-lg`}>
                       <IconoGrupo className="h-6 w-6 text-white" />
@@ -184,6 +199,7 @@ export default function AdministracionView() {
                             </p>
                           </div>
                         </div>
+                        <span className="text-secondary-400">›</span>
                       </div>
                     )
                   })}

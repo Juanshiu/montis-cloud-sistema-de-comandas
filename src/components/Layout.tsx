@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BarChart3, Calculator, Clock, History, Settings, ShoppingCart, User } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { useDemo } from '@/store/demo-store'
 import type { VistaId } from '@/types'
 
 interface LayoutProps {
@@ -47,10 +46,10 @@ const horaActual = () =>
   new Date().toLocaleTimeString('es-CO', {
     hour: '2-digit',
     minute: '2-digit',
+    second: '2-digit',
   })
 
 export default function Layout({ vista, onVista, children }: LayoutProps) {
-  const { comandasAbiertas } = useDemo()
   const [hora, setHora] = useState(horaActual)
   const actual = VISTAS.find((item) => item.id === vista) ?? VISTAS[0]
   const IconoVista = actual.icono
@@ -106,11 +105,6 @@ export default function Layout({ vista, onVista, children }: LayoutProps) {
                     >
                       <Icon size={16} />
                       <span>{item.nombre}</span>
-                      {item.id === 'caja' && comandasAbiertas.length > 0 && (
-                        <span className="ml-0.5 inline-flex items-center justify-center min-w-[17px] h-[17px] px-1 rounded-full bg-primary-600 text-white text-[10px] font-bold">
-                          {comandasAbiertas.length}
-                        </span>
-                      )}
                     </button>
                   )
                 })}

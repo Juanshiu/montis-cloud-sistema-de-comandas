@@ -1,12 +1,10 @@
 import type { Comanda, ItemComanda, TipoServicio } from '@/types'
 
-const formateadorMoneda = new Intl.NumberFormat('es-CO', {
-  style: 'currency',
-  currency: 'COP',
-  maximumFractionDigits: 0,
-})
-
-export const formatearMoneda = (valor: number) => formateadorMoneda.format(valor)
+/**
+ * Formato de moneda de la aplicación: símbolo $ pegado y separador de miles
+ * con punto (es-CO), igual que en el sistema original.
+ */
+export const formatearMoneda = (valor: number) => `$${Math.round(valor).toLocaleString('es-CO')}`
 
 export const formatearHora = (iso: string) =>
   new Date(iso).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })
@@ -32,6 +30,9 @@ export const claveDia = (iso: string) => {
     fecha.getDate(),
   ).padStart(2, '0')}`
 }
+
+/** Clave del día local de hoy (no usar toISOString: devuelve UTC). */
+export const claveHoy = () => claveDia(new Date().toISOString())
 
 /** Minutos transcurridos desde una hora ISO. */
 export const minutosTranscurridos = (iso: string) => {

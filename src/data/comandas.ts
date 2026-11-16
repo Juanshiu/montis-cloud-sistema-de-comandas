@@ -113,7 +113,7 @@ export const COMANDAS_ABIERTAS: Comanda[] = [
     tipo: 'mesa',
     estado: 'abierta',
     mesero: 'Andrés Felipe Ruiz',
-    mesaId: 'terraza-1',
+    mesaId: 'salon1-1',
     items: compacto([
       linea('PECHUGA GRILLE', 1, ['Tres cuartos', 'Aguacate']),
       linea('ENSALADA', 1),
@@ -221,11 +221,11 @@ const MESAS_HISTORIAL = [
   'principal-4',
   'principal-6',
   'principal-7',
-  'terraza-2',
-  'terraza-3',
-  'terraza-4',
-  'reservado-1',
-  'reservado-2',
+  'principal-8',
+  'salon1-2',
+  'salon1-3',
+  'salon2-1',
+  'salon2-2',
 ]
 
 const elegir = <T,>(lista: T[]) => lista[Math.floor(azar() * lista.length)]
@@ -289,6 +289,16 @@ const construirHistorial = (): Comanda[] => {
       numero -= 1
     }
   }
+
+  // Una comanda cancelada, para que el historial muestre los dos estados.
+  const anulada = generarComanda(numero, diaAnterior(2, 13, 25))
+  comandas.push({
+    ...anulada,
+    id: `comanda-${numero}-anulada`,
+    estado: 'anulada',
+    cerradaEn: undefined,
+    pago: undefined,
+  })
 
   return comandas
 }
